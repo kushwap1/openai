@@ -42,7 +42,7 @@ jobs:
         env:
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}
         run: |
-          pip install openai
-          python3 openai.py
+          pip install openai | tee log.txt
+          python3 openai.py log.txt
 
 
