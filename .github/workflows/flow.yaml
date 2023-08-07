@@ -1,6 +1,6 @@
 name: Flow CI/CD
 
-on: push
+on: pull_request
 
 jobs:
   build:
@@ -25,4 +25,13 @@ jobs:
         with:
           push: true
           tags: kushwap1/mywebapp:latest  # Please change the username here.
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      
+      -name: Parse log and summarize
+       run: python3 openai.py
+       
 
