@@ -1,11 +1,13 @@
 name: Flow CI/CD
 
 on:
-  pull_request:
-    types:
-      - "opened"
-    branches:    
-      - main
+  # pull_request:
+  #   types:
+  #     - "opened"
+  #   branches:    
+  #     - main
+  push:
+    
 
 jobs:
   build:
@@ -42,7 +44,8 @@ jobs:
         env:
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}
         run: |
-          pip install openai | tee log.txt
+          cat MyWebApp.sln | tee log.txt
+          pip install openai
           python3 openai.py log.txt
 
 
