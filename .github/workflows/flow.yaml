@@ -40,7 +40,7 @@ jobs:
 
       - name: Parse log and summarize
         env:
-          OPENAI_SECRET_KEY = ${{secrets.OPENAI_SECRET_KEY}}
+          OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}
         run: |
           pip install openai
           python3 openai.py
