@@ -1,6 +1,12 @@
 name: Flow CI/CD
 
-on: pull_request
+on:
+  pull_request:
+    types:
+      - "opened"
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      - main
 
 jobs:
   build:
@@ -33,5 +39,5 @@ jobs:
       
       -name: Parse log and summarize
        run: python3 openai.py
-       
+
 
