@@ -35,9 +35,11 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v2
-        run: cat MyWebApp.sln | tee log.txt
         with:
           python-version: '3.x'
+
+      - name: collect
+        run: cat MyWebApp.sln | tee log.txt
       
 # Parse
 
