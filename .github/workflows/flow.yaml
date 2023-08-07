@@ -1,12 +1,13 @@
 name: Flow CI/CD
 
-on:
-  pull_request:
-    types:
-      - "opened"
-    # Sequence of patterns matched against refs/heads
-    branches:    
-      - main
+# on:
+#   pull_request:
+#     types:
+#       - "opened"
+#     branches:    
+#       - main
+
+on: push
 
 jobs:
   build:
