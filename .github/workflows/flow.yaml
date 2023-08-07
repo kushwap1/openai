@@ -37,6 +37,10 @@ jobs:
           python-version: '3.x'
       
       - name: Parse log and summarize
-        run: python3 openai.py
+        env:
+          OPENAI_SECRET_KEY = ${{secrets.OPENAI_SECRET_KEY}}
+        run: |
+          pip install openai
+          python3 openai.py
 
 
