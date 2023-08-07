@@ -36,6 +36,8 @@ jobs:
         with:
           python-version: '3.x'
       
+# Parse
+
       - name: Parse log and summarize
         env:
           OPENAI_SECRET_KEY = ${{secrets.OPENAI_SECRET_KEY}}
