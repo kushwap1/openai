@@ -14,8 +14,8 @@ def generate_summary(log_file_contents):
 	response = openai.Completion.create(
 		engine="text-davinci-003",
 		prompt=log_file_contents,
-		temperature=0.9,
-		max_tokens=150,
+		temperature=0.7,
+		max_tokens=1024,
 		top_p=1,
 		frequency_penality=0,
 		presence_penalty=0)
