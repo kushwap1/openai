@@ -1,12 +1,12 @@
 name: Flow CI/CD
 
 on:
-  # pull_request:
-  #   types:
-  #     - "opened"
-  #   branches:    
-  #     - main
-  push:
+  pull_request:
+    types:
+      - "opened"
+    branches:    
+      - main
+  # push:
     
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
       
 # Parse
 
-      - name: Parse log and summarize
+      - name: parse
         env:
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}
         run: |
