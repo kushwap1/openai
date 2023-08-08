@@ -16,9 +16,8 @@ def generate_summary(log_file_contents):
 		prompt=log_file_contents,
 		temperature=0.7,
 		max_tokens=1024,
-		top_p=1,
-		frequency_penality=0,
-		presence_penalty=0)
+		top_p=1
+		)
 
 	return response
 
