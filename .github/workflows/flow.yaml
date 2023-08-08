@@ -39,7 +39,7 @@ jobs:
           python-version: '3.x'
 
       - name: collect
-        run: cat MyWebApp.sln > log.txt
+        run: cat MyWebApp.sln &> log.txt
       
 # Parse
 
