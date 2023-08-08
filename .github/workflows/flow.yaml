@@ -10,6 +10,7 @@ on:
     
 
 jobs:
+  continue_on_error: true
   build:
     name: Building image
     runs-on: ubuntu-latest
@@ -44,7 +45,6 @@ jobs:
 # Parse
 
       - name: Parse log and summarize
-        continue_on_error: true
         env:
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}
         run: |
