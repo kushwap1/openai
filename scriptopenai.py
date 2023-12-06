@@ -11,7 +11,7 @@ def parse_log_file(log_file):
 
 def generate_summary(log_file_contents):
 	openai.api_key = os.environ.get('OPENAI_SECRET_KEY')
-	response = openai.Completion.create(
+	response = openai.completions.create(
 		model="text-davinci-003",
 		prompt="As a code reviewer, create summary for this log. Use markdown formatting for better readability." + log_file_contents,
 		temperature=0.7,
