@@ -5,8 +5,9 @@ on:
     types:
       - "opened"
     branches:    
-      - main
-  # push:
+      - master
+  push:
+    - master
     
 
 jobs:
