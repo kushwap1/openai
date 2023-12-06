@@ -1,0 +1,63 @@
+name: Flow CI/CD
+
+on:
+  pull_request:
+    types:
+      - "opened"
+    branches:    
+      - main
+  # push:
+    
+
+jobs:
+  build:
+    name: Building image
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        
+      - name: DockerHub login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: kushwap1/mywebapp:latest  # Please change the username here.
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: collect
+        run: |
+          cat MyWebApp.sln &> log.txt
+          cat log.txt
+      
+# Parse
+
+      - name: parse
+        env:
+          OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}
+        run: |
+          pip install openai
+          python3 scriptopenai.py log.txt
+
+      - name: comment on PR
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: summary.txt
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+

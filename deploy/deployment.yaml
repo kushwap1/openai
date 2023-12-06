@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mywebapp
+  name: mywebapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mywebapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mywebapp
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "credsrole"
+        vault.hashicorp.com/agent-inject-secret-database: 'secret/creds'
+        vault.hashicorp.com/agent-inject-template-database: |
+          {{- with secret "secret/creds" -}} mysql -p {{ .Data.data.pass }} -h database:3306 mydb {{- end -}}
+    spec:
+      containers:
+        - image: kushwap1/mywebapp
+          name: mywebapp
+          ports:
+            - containerPort: 80
+          resources: {}
+status: {}
