@@ -5,10 +5,10 @@ on:
     types:
       - "opened"
     branches:    
-      - master
-  push:
-    branches:
-      - master
+      - main
+  # push:
+  #   branches:
+  #     - main
     
 
 jobs:
