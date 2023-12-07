@@ -58,7 +58,8 @@ jobs:
       - name: Parse Pipeline Run Results
         if: always()
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
         run: |
           gh run view 7133498575 --log-failed > failure.txt
           cat failure.txt
