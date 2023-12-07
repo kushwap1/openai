@@ -55,15 +55,17 @@ jobs:
           pip install openai
           python3 scriptopenai.py log.txt
 
-      - name: Get Current Job Log URL
-        uses: Tiryoh/gha-jobid-action@v0
-        id: jobs
+      - name: set id
+        id: set-job-id
+        uses: ayachensiyuan/get-action-job-id@v1.6
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: ${{ github.job }}
+          job-name: 'Building image' # must be the same as 'get-job-id.name' 
 
-      - name: Output Current Job Log URL
-        run: echo ${{ steps.jobs.outputs.html_url }}          
+      # get id     
+      - name: get id
+        run: echo "The current job id is ${{ steps.set-job-id.outputs.jobId }}"       
 
       - name: Parse Pipeline Run Results
         if: always()
