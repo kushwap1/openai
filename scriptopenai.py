@@ -25,9 +25,10 @@ log_file_contents = parse_log_file(sys.argv[1])
 
 response = generate_summary(log_file_contents)
 
-print(response['choices'][0]['text'])
+# print(response['choices'][0]['text'])
+print(response.choices[0].text)
 
 with open('summary.txt', 'w') as f:
-	f.write(response['choices'][0]['text'])
+	f.write(response.choices[0].text)
 	f.close()
 
