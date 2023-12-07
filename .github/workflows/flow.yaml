@@ -55,11 +55,20 @@ jobs:
           pip install openai
           python3 scriptopenai.py log.txt
 
+      - name: Parse Pipeline Run Results
+        if: always()
+        run: |
+          gh run --log-failed &> failure.txt
+          cat failure.txt
+          python3 scriptopenai.py failure.txt          
+
       - name: comment on PR
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body-file: summary.txt
           token: ${{ secrets.GITHUB_TOKEN }}
+
+
 
 
