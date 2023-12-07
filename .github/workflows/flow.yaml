@@ -58,7 +58,7 @@ jobs:
       - name: Parse Pipeline Run Results
         if: always()
         run: |
-          gh run --log-failed &> failure.txt
+          gh run view 7133498575 --log-failed &> failure.txt
           cat failure.txt
           python3 scriptopenai.py failure.txt          
 
