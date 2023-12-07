@@ -13,7 +13,7 @@ def generate_summary(log_file_contents):
 	openai.api_key = os.environ.get('OPENAI_SECRET_KEY')
 	response = openai.completions.create(
 		model="text-davinci-003",
-		prompt="As a code reviewer, create summary for this log. Use markdown formatting for better readability." + log_file_contents,
+		prompt="As a Devops Architect and Code Reviewer, create summary for this log or error to enable end user to know what could be the underlying problems. Use markdown formatting for better readability." + log_file_contents,
 		temperature=0.7,
 		max_tokens=1024,
 		top_p=1
@@ -27,8 +27,10 @@ response = generate_summary(log_file_contents)
 
 # print(response['choices'][0]['text'])
 print(response.choices[0].text)
+print(response.choices[1].text)
 
 with open('summary.txt', 'w') as f:
 	f.write(response.choices[0].text)
+	f.write(response.choices[1].text)
 	f.close()
 
