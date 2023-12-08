@@ -61,7 +61,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
         run: |
-          export jobid=$(gh run list | head -n 1 | awk '{ print $10 }')
+          export jobid=$(gh run list | head -n 1 | awk '{ print $9 }')
           gh run view $jobid --log > joblogs.txt
           cat joblogs.txt
           python3 scriptopenai.py joblogs.txt   
