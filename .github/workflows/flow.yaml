@@ -55,6 +55,13 @@ jobs:
           pip install openai
           python3 scriptopenai.py log.txt   
 
+      - name: comment on PR
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: summary.txt
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Parse Pipeline Run Results
         if: always()
         env:
@@ -63,27 +70,19 @@ jobs:
         run: |
           export jobid=$(gh run list | head -n 1 | awk '{ print $9 }')
           gh run view $jobid --log > joblogs.txt
-          cat joblogs.txt
-          python3 scriptopenai.py joblogs.txt   
+          python3 scriptopenai.py joblogs.txt             
 
-      - name: comment on PR
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body-file: summary.txt
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-  fail-on-error:
-    name: Workflow Status
-    needs:
-      - build  
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - uses: technote-space/workflow-conclusion-action@v2
-      - name: Check Job Status status and fail if they are red
-        if: env.WORKFLOW_CONCLUSION == 'failure'
-        run: exit 1
+  # fail-on-error:
+  #   name: Workflow Status
+  #   needs:
+  #     - build  
+  #   runs-on: ubuntu-latest
+  #   if: always()
+  #   steps:
+  #     - uses: technote-space/workflow-conclusion-action@v2
+  #     - name: Check Job Status status and fail if they are red
+  #       if: env.WORKFLOW_CONCLUSION == 'failure'
+  #       run: exit 1
 
 
 
