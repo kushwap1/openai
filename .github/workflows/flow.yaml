@@ -74,6 +74,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   fail-on-error:
+    runs-on: ubuntu-latest
     if: always()
     steps:
       - uses: technote-space/workflow-conclusion-action@v2
