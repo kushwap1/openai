@@ -61,8 +61,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
         run: |
-          export jobid=$(gh run list | awk 'NR>1' | head -n 1 | awk '{ print $7 }')
-          echo $jobid        
+          export jobid=$(gh run list | awk 'NR>1' | head -n 1 | awk '{ print $8 }')
+          gh run view $jobid --log-failed > failure.txt
+          cat failure.txt
+          python3 scriptopenai.py failure.txt       
 
       - name: comment on PR
         uses: peter-evans/create-or-update-comment@v2
