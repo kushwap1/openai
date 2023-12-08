@@ -55,23 +55,41 @@ jobs:
           pip install openai
           python3 scriptopenai.py log.txt   
 
-      - name: Parse Pipeline Run Results
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
-        run: |
-          export jobid=$(gh run list | awk 'NR>1' | head -n 1 | awk '{ print $8 }')
-          gh run view $jobid --log-failed > failure.txt
-          cat failure.txt
-          python3 scriptopenai.py failure.txt       
-
       - name: comment on PR
         uses: peter-evans/create-or-update-comment@v2
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body-file: summary.txt
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Parse Pipeline Run Results
+      #   if: always()
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
+      #   run: |
+      #     export jobid=$(gh run list | head -n 1 | awk '{ print $9 }')
+      #     gh run view $jobid --log-failed > joblogs.txt
+      #     python3 scriptopenai.py joblogs.txt          
+
+  GetSomeDetails:
+    needs:
+      - build  
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+            
+      - name: Parse Pipeline Run Results
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
+        run: |
+          export jobid=$(gh run list | head -n 1 | awk '{ print $9 }')
+          gh run view $jobid --log-failed > joblogs.txt
+          python3 scriptopenai.py joblogs.txt
+
 
 
 
