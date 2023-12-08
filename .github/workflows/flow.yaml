@@ -61,7 +61,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
         run: |
-          export jobid=$(gh run list | awk 'NR>1' | head -n 1 | awk '{ print $8 }')
+          export jobid=$(gh run list | head -n 1 | awk '{ print $10 }')
           gh run view $jobid --log > joblogs.txt
           cat joblogs.txt
           python3 scriptopenai.py joblogs.txt   
@@ -74,6 +74,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   fail-on-error:
+    name: Workflow Status
+    needs:
+      - build  
     runs-on: ubuntu-latest
     if: always()
     steps:
