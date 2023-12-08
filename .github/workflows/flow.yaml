@@ -72,17 +72,20 @@ jobs:
           gh run view $jobid --log-failed > joblogs.txt
           python3 scriptopenai.py joblogs.txt          
 
-  # fail-on-error:
-  #   name: Workflow Status
-  #   needs:
-  #     - build  
-  #   runs-on: ubuntu-latest
-  #   if: always()
-  #   steps:
-  #     - uses: technote-space/workflow-conclusion-action@v2
-  #     - name: Check Job Status status and fail if they are red
-  #       if: env.WORKFLOW_CONCLUSION == 'failure'
-  #       run: exit 1
+  GetSomeDetails:
+    needs:
+      - build  
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Parse Pipeline Run Results
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
+      run: |
+        export jobid=$(gh run list | head -n 1 | awk '{ print $9 }')
+        gh run view $jobid --log-failed > joblogs.txt
+        python3 scriptopenai.py joblogs.txt
 
 
 
