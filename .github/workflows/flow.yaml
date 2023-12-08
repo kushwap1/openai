@@ -69,7 +69,7 @@ jobs:
           OPENAI_SECRET_KEY: ${{ secrets.OPENAI_SECRET_KEY }}     
         run: |
           export jobid=$(gh run list | head -n 1 | awk '{ print $9 }')
-          gh run view $jobid --log &> joblogs.txt
+          gh run view $jobid --log > joblogs.txt 2>/dev/null
           python3 scriptopenai.py joblogs.txt          
 
   # fail-on-error:
